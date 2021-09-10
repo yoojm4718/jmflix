@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import styles from "./Header.module.css";
 
 const Header = () => (
   <header>
-    <ul>
+    <ul className={styles.navList}>
       <li>
         <Link to="/">Movies</Link>
       </li>
