@@ -1,3 +1,4 @@
+import { moviesApi } from "api";
 import React from "react";
 import HomePresenter from "./HomePresenter";
 
@@ -9,8 +10,30 @@ const HomeContainer = class extends React.Component {
     error: null,
     loading: true,
   };
+
+  async componentDidMount() {
+    try {
+      const {
+        data: { results: nowPlaying },
+      } = await moviesApi.nowPlaying();
+      const {
+        data: { results: upcoming },
+      } = await moviesApi.upcoming();
+      const {
+        data: { results: popular },
+      } = await moviesApi.popular();
+      this.setState({ nowPlaying, upcoming, popular });
+    } catch {
+      this.setState({ error: "Can't Find Movies Information." });
+    } finally {
+      this.setState({
+        loading: false,
+      });
+    }
+  }
   render() {
     const { nowPlaying, upcoming, popular, error, loading } = this.state;
+    console.log(this.state);
     return (
       <HomePresenter
         nowPlaying={nowPlaying}
