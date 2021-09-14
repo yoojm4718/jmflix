@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.js": "/jmflix/static/js/main.bd627bfc.chunk.js",
+    "main.js.map": "/jmflix/static/js/main.bd627bfc.chunk.js.map",
+    "runtime-main.js": "/jmflix/static/js/runtime-main.72ba4240.js",
+    "runtime-main.js.map": "/jmflix/static/js/runtime-main.72ba4240.js.map",
+    "static/js/2.c885f70a.chunk.js": "/jmflix/static/js/2.c885f70a.chunk.js",
+    "static/js/2.c885f70a.chunk.js.map": "/jmflix/static/js/2.c885f70a.chunk.js.map",
+    "index.html": "/jmflix/index.html",
+    "static/js/2.c885f70a.chunk.js.LICENSE.txt": "/jmflix/static/js/2.c885f70a.chunk.js.LICENSE.txt",
+    "static/media/noPosterSmall.png": "/jmflix/static/media/noPosterSmall.ea2ad102.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.72ba4240.js",
+    "static/js/2.c885f70a.chunk.js",
+    "static/js/main.bd627bfc.chunk.js"
+  ]
+}
