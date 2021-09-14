@@ -74,7 +74,6 @@ const DetailPresenter = ({ result, error, loading }) =>
       <Helmet>
         <title>Loading... | JMFLIX</title>
       </Helmet>
-
       <Loader />
     </>
   ) : error ? (
