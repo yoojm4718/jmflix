@@ -4,6 +4,8 @@ import styled from "styled-components";
 import Loader from "Components/Loader";
 import Helmet from "react-helmet";
 import Message from "Components/Message";
+import Poster from "Components/Poster";
+import Section from "Components/Section";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -66,9 +68,22 @@ const Overview = styled.p`
   opacity: 0.7;
   line-height: 1.5;
   width: 50%;
+  margin-bottom: 50px;
 `;
 
-const DetailPresenter = ({ result, error, loading }) =>
+const IMDB = styled.a`
+  color: black;
+  height: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 2px 4px;
+  text-decoration: none;
+  background-color: yellow;
+  border-radius: 5px;
+  background-color: #f4c518;
+`;
+
+const DetailPresenter = ({ result, error, loading, isMovie }) =>
   loading ? (
     <>
       <Helmet>
@@ -80,6 +95,7 @@ const DetailPresenter = ({ result, error, loading }) =>
     <Message text="Cannot Find Result" color="#e74c3c" />
   ) : (
     <Container>
+      {console.log(result)}
       <Helmet>
         <title>
           {result.original_title ? result.original_title : result.original_name}{" "}
@@ -123,8 +139,59 @@ const DetailPresenter = ({ result, error, loading }) =>
                     : `${genre.name} / `
                 )}
             </Item>
+            {result.imdb_id && (
+              <>
+                <Divider>•</Divider>
+                <Item>
+                  {result.imdb_id && (
+                    <IMDB
+                      target="_blank"
+                      href={`https://www.imdb.com/title/${result.imdb_id}`}
+                    >
+                      iMDB
+                    </IMDB>
+                  )}
+                </Item>
+              </>
+            )}
+          </ItemContainer>
+          <ItemContainer>
+            <Item>
+              Production Companies:
+              {result.production_companies &&
+                result.production_companies.map((company, index) =>
+                  index === result.production_companies.length - 1
+                    ? ` ${company.name}`
+                    : ` ${company.name} /`
+                )}
+            </Item>
+          </ItemContainer>
+          <ItemContainer>
+            <Item>
+              Production Countries:
+              {result.production_countries &&
+                result.production_countries.map((country, index) =>
+                  index === result.production_countries.length - 1
+                    ? ` ${country.name}`
+                    : ` ${country.name} /`
+                )}
+            </Item>
           </ItemContainer>
           <Overview>{result.overview}</Overview>
+          {!isMovie && (
+            <Section title="Seasons">
+              {result.seasons.map((season) => (
+                <Poster
+                  key={season.id}
+                  id={season.id}
+                  imageUrl={season.poster_path}
+                  title={season.name}
+                  year={season.air_date}
+                  isMovie={isMovie}
+                />
+              ))}
+            </Section>
+          )}
         </Data>
       </Content>
     </Container>
@@ -134,6 +201,7 @@ DetailPresenter.propTypes = {
   result: PropTypes.object,
   error: PropTypes.string,
   loading: PropTypes.bool.isRequired,
+  isMovie: PropTypes.bool.isRequired,
 };
 
 export default DetailPresenter;
