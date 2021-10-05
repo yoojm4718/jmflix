@@ -19,7 +19,7 @@ const Backdrop = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 150vh;
   background-image: url(${(props) => props.bgImage});
   background-position: center center;
   background-size: cover;
@@ -68,7 +68,7 @@ const Overview = styled.p`
   opacity: 0.7;
   line-height: 1.5;
   width: 50%;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 `;
 
 const IMDB = styled.a`
@@ -81,6 +81,48 @@ const IMDB = styled.a`
   background-color: yellow;
   border-radius: 5px;
   background-color: #f4c518;
+`;
+
+const CompanyContainer = styled.div`
+  width: 100%;
+  margin-bottom: 30px;
+  & h2 {
+    margin-bottom: 25px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+`;
+
+const Companies = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  & img {
+    width: 80px;
+    object-fit: contain;
+  }
+  & span {
+    font-size: 17px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+  }
+`;
+
+const TeaserContainer = styled.div`
+  width: 100%;
+  margin-bottom: 30px;
+  & h2 {
+    margin-bottom: 25px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+`;
+
+const VideoContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  overflow-x: scroll;
+  width: 100%;
 `;
 
 const DetailPresenter = ({ result, error, loading, isMovie }) =>
@@ -157,17 +199,6 @@ const DetailPresenter = ({ result, error, loading, isMovie }) =>
           </ItemContainer>
           <ItemContainer>
             <Item>
-              Production Companies:
-              {result.production_companies &&
-                result.production_companies.map((company, index) =>
-                  index === result.production_companies.length - 1
-                    ? ` ${company.name}`
-                    : ` ${company.name} /`
-                )}
-            </Item>
-          </ItemContainer>
-          <ItemContainer>
-            <Item>
               Production Countries:
               {result.production_countries &&
                 result.production_countries.map((country, index) =>
@@ -178,6 +209,23 @@ const DetailPresenter = ({ result, error, loading, isMovie }) =>
             </Item>
           </ItemContainer>
           <Overview>{result.overview}</Overview>
+          {result.production_companies && (
+            <CompanyContainer>
+              <h2>Production Companies</h2>
+              <Companies>
+                {result.production_companies.map((company) =>
+                  company.logo_path ? (
+                    <img
+                      src={`https://image.tmdb.org/t/p/w300${company.logo_path}`}
+                      alt={company.name}
+                    />
+                  ) : (
+                    <span>{company.name}</span>
+                  )
+                )}
+              </Companies>
+            </CompanyContainer>
+          )}
           {!isMovie && (
             <Section title="Seasons">
               {result.seasons.map((season) => (
@@ -192,6 +240,25 @@ const DetailPresenter = ({ result, error, loading, isMovie }) =>
               ))}
             </Section>
           )}
+          <TeaserContainer>
+            <h2>Teasers</h2>
+            <VideoContainer>
+              {result.videos.results.map(
+                (video) =>
+                  video.site === "YouTube" && (
+                    <iframe
+                      width="480"
+                      height="270"
+                      src={`https://www.youtube.com/embed/${video.key}`}
+                      title="YouTube video player"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                    ></iframe>
+                  )
+              )}
+            </VideoContainer>
+          </TeaserContainer>
         </Data>
       </Content>
     </Container>
